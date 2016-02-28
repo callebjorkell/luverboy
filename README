@@ -1,0 +1,63 @@
+
+ README
+ ======
+
+ What the Luverboy script provides:
+  - The ability to fully integrate a website or other interface using the same
+    SQL schema into an IRC interface.
+  - The ability to independantly search, find and insert Quake 2 clan matches.
+  - The ability to present the users with pretty much any kind of statistic
+    that might be interesting to a Quake 2 player.
+  - The ability to do all kinds of regular eggdrop tasks such as OP
+    protection, definition handling, weather presenting, humor and so much
+    more. See QUICKGUIDE and the !help command for more usage information.
+
+
+ Installation
+ ------------
+
+ What you need:
+  - Machine with IRC access capable of running an eggdrop.
+  - An eggdrop binary compiled for that machine. The Luverboy script has been
+    tested with eggdrop 1.6.18 but never and quite possibly older versions
+    will probably also work.
+  - A configured MySQL database.
+
+ Dependencies:
+  - You at least need TclXML, MySQLTCL.
+
+ To set up the eggdrop you can use the luverboy.conf that is available in the
+ cfg/ directory. This is a skeleton of the .conf file that I myself use for
+ Luverboy. Copy the file into the luverboy directory and edit it to your
+ liking.
+
+ After the eggdrop is set up, the MySQL database needs to be configured. The
+ database schema that Luverboy uses can be found in the sql/ directory. Please
+ refer to the MySQL documentation if you do not know how to import this
+ schema.
+
+ Last but not least, you need to configure the Luverboy script. The config has
+ been placed in the cfg/ directory to avoid having to check in sensitive
+ information back into the repository. Copy config.tcl into the luverboy
+ directory (make sure to not commit them back into the repository if you have
+ write access) and only then modify the files. Leave the files in the cfg/
+ directory untouched. Go through the (short) configuration file and change the
+ settings that need to be changed and it should be safe to start the eggdrop
+ to test the script out.
+
+
+ Disclaimer
+ ----------
+
+ Luverboy is a piece of software that I've written solely on my spare time and
+ it has only been tested on my own server, for a specific clan. I will make no
+ promises about functionality, nor will I take and responsibility if anything
+ whatsoever should go wrong. I've made this code available as is, and with no
+ guarantees. Use at your own risk!
+
+
+ More information
+ ----------------
+
+ A quick startup guide for the usage of the bot can be found in the QUICKGUIDE
+ document.

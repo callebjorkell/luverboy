@@ -1,0 +1,105 @@
+
+ Quick Luverboy Introduction
+ ===========================
+
+ This quick tutorial was created to give you a quick overview of how Luverboy
+ works, and what the most important commands are.
+
+ Luverboy is an eggdrop bot, which means that he is a piece of software that
+ communicates with an IRC server. He is also connected to a MySQL database via
+ the TCL script that makes up Luverboy's brain. Because he uses a MySQL
+ database to store data, it is very easy to connect other frontends to the
+ same system. For my clan (Love Messengers) I have integrated our homepage
+ (http://luvers.nrgizer.com) to use the same data. This means that all
+ information that Luverboy adds, changes, or retrieves is the same as on the
+ homepages. He can show matchstats, clan information and even add clanwars.
+ Even more than this, he can independantly find clanwars and make a suggestion
+ as to what the scores, maps, frags and opponents were. He needs some help to
+ make sure that the guess was correct, but in about 99% of the cases, he is
+ spot on.
+
+
+ Access levels
+ -------------
+
+ There are four different access levels for the bot. Regular user, voiced
+ user, luver, and owner. All levels, except owner, are determined by the
+ status on the irc channels: A regular user is a user that doesn't have voice.
+ A minimum set of functions are available to these users, such as for example
+ !cwspy. Voiced are users that have either voice, or op on the public channel.
+ These voiced users have access to a few more commands, but most are still
+ unavailable. A luver is determined to be a luver if he/she has op on the
+ private channel, this means that if you want to use all Luverboys commands,
+ you need to be opped here. You can get ops by:
+
+ <NRGizeR> /msg Luverboy !op mys3cretpass
+
+ The last class (owner) is determined by eggdrop's own user system (a user
+ with the m flag set). This class has access to all commands, which include
+ the !addtrial, and !promotetrial commands for example. These are kept as
+ owner-only commands as they introduce new users to Luverboy.
+
+
+ Help
+ ----
+
+ Luverboy has a fully working help system that describes each and all commands
+ that are available. !help will give you a list of commands that are available
+ to you, and !help command will print a more detailed help for the given
+ command. For example:
+
+ <NRGizeR> !help luverstats
+ <Luverboy> [help] Shows stats for the given luver. If a luver is not
+     specified, general statistics about the luvers is printed.
+ <Luverboy> [help] Syntax: !luverstats [membername/ircnick]
+ <Luverboy> [help] Example: !luverstats Remo
+ <Luverboy> [help] Related commands: listluvers, luverinfo, luverphone, setphone
+
+
+ Match finding
+ -------------
+
+ Luverboy has several functions to make match searching and server finding as
+ easy as possible. You can do a matchsearch with !3on3, !4on4 and so on,
+ depending on the number of players we have. This will turn on z0rbots
+ matchsearch function, so keep an eye on the public irc channel after that.
+
+ The !hl command can be used to highlight all opped nicks on the private
+ channel, so that you can ask everyone online if they want to play or not.
+ Note that this function only highlights opped users, so if you don't want to
+ be highlighted just remove your ops in the private channel. You can later
+ regain them by using the !op command as described in the "Access levels"
+ topic.
+
+
+ cwspy
+ -----
+
+ cwspy is what the automatical cw finder is called. This part of the Luverboy
+ script scans servers once every 2 minutes to find a clan server where at
+ least three or more own clan tags are found. After three tags have been
+ located on one clan server, and the scores is something other than 0-0,
+ Luverboy will assume that a CW has started. After two maps have been played
+ against the same opponent, Luverboy will assume that the CW is over, and
+ print a suggestion in the private irc channel. This suggestion is accepted
+ with !cwspyok. The scores in an ongoing match can be checked at any time with
+ !cwspy
+
+
+ Statistics
+ ----------
+
+ Because of the MySQL database that Luverboy uses to save information, it is
+ very easy to generate a multitude of stats. At the time of writing, Luverboy
+ can produce map specific stats with !mapstats, luver specific stats with
+ !luverstats and general stats with !cwstats. He can even show frags that
+ individual luvers got in a specified CW with the help of !cwfrags or show
+ general frag statistics for a given person with the !fragstats command. Get
+ more information on how to use these commands with !help.
+
+
+ More...
+ -------
+ On top of all this, Luverboy is able to do so much more! Just try the !help
+ command to explore all options that the bot has!
+

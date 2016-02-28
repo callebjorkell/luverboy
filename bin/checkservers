@@ -1,0 +1,74 @@
+#! /usr/bin/tclsh
+
+###
+#
+#  Copyright (c) 2008 Carl-Magnus "NRGizeR" Björkell
+#
+#
+#  This file is part of the Luverboy eggdrop script.
+#
+#  The Luverboy eggdrop script is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  The Luverboy eggdrop script is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with the Luverboy eggdrop script.  If not, see <http://www.gnu.org/licenses/>.
+#
+###
+
+package require mysqltcl
+
+if { $argc > 0 } {
+    # source the config file.
+    set username [lindex $argv 0]
+    set config ${username}/config.tcl
+    source ${config}
+    #global maxtimeouts maxserverdowntime QSTAT
+
+    set db [mysqlconnect -host $dbhost -user $dbuser -password $dbpass -db $dbname]
+    set servers [mysqlsel $db "select address,available,id,downdate from servers" -list]
+
+    foreach s $servers {
+        puts stdout "Checking [lindex $s 0]"
+        set check 0
+        set up 0
+        while { $check < $maxtimeouts && $up != 1 } {
+            incr check
+            set io [open "|${QSTAT} -utf8 -nh -q2s [lindex $s 0]" r]
+            while { [gets $io line] != -1 } {
+                if { [regexp -- "^[lindex $s 0] +(no response|DOWN)$" $line] } {
+                    if { $check == $maxtimeouts } {
+                        if { [lindex $s 1] == 1 } {
+                            puts stdout "It seems like [lindex $s 0] is down..."
+                            mysqlexec $db "update servers set available = 0, downdate = [clock seconds] where id = '[lindex $s 2]'"
+                        } else {
+                            if { [lindex $s 3] < [expr [clock seconds] - $maxserverdowntime] } {
+                                #it has been down for more than the maximum allowed time days, delete the server so that we don't waste time checking it anymore (we assume it will stay down).
+                                puts stdout "[lindex $s 0] has been down for over $maxserverdowntime seconds, deleting it..."
+                                mysqlexec $db "delete from servers where id = '[lindex $s 2]'"
+                            }
+                        }
+                    }
+                } else {
+                    set up 1
+                    if { [lindex $s 1] == 0 } {
+                        puts stdout "It seems like [lindex $s 0] is back up..."
+                        mysqlexec $db "update servers set available = 1, downdate = NULL  where id = '[lindex $s 2]'"
+                    }
+                }
+            }
+            catch { close $io }
+        }
+    }
+
+    mysqlclose $db
+} else {
+    puts stdout "No bot dir specified"
+}
+
